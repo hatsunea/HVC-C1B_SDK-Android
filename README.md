@@ -9,7 +9,7 @@ This code provides the JAVA API classes from Bluetooth connection to function ex
         hvc_c1b_sdk.jar			JAR file created from code
       src/  
         omron/  
-          HVC/				   HVC class package
+          HVC/				    HVC class package
             HVC.java			   HVC parent class  
             HVC_BLE.java		   HVC-C class (HVC sub-class)
             HVC_VER.java		   Class storing the HVC version number
@@ -57,7 +57,8 @@ The HVC classes will be useable if they are imported as follows in the applicati
                           ・Passed as argument of HVC.setParam()
         HVC_RES           Class storing detection results
         HVC_BleCallback   Class for callbacks called after process completion
-                          ・The method for HVC class is executed out-of-synch. The callback function is called after process completion
+                          ・The method for HVC class is executed out-of-sync.
+                            The callback function is called after process completion.
 
     Refer to the class diagram in [HVC-C_Android class diagram](./HVC-C_Android_Class.png) for details.
 
