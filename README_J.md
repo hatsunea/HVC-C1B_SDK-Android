@@ -1,4 +1,4 @@
-# HVC-C1B Android-SDK
+# HVC-C1B Android-SDK by OMRON
 
 ### 1. コード内容  
  本コードではBluetooth接続から機能実行、切断処理までをJAVAのAPIクラスとして用意しています。
