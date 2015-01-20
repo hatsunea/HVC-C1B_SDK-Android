@@ -6,7 +6,7 @@
 ### 2. ディレクトリ構成  
       AndroidManifest.xml         マニュフェスト  
       bin/  
-        hvc_c1w_sdk.jar             コードから生成したJARファイル  
+        hvc_c1b_sdk.jar             コードから生成したJARファイル  
       src/  
         omron/  
           HVC/                      HVCクラスパッケージ  
