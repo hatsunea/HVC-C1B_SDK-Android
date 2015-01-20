@@ -1,4 +1,4 @@
-﻿# HVC-C1B Android-SDK
+﻿# HVC-C1B Android-SDK by OMRON
 
 ### 1. Code contents  
 This code provides the JAVA API classes from Bluetooth connection to function execution and disconnection process.
@@ -6,7 +6,7 @@ This code provides the JAVA API classes from Bluetooth connection to function ex
 ### 2. Directory structure  
       AndroidManifest.xml		Manifest  
       bin/  
-        hvc_c1w_sdk.jar			JAR file created from code
+        hvc_c1b_sdk.jar			JAR file created from code
       src/  
         omron/  
           HVC/				   HVC class package
@@ -16,7 +16,7 @@ This code provides the JAVA API classes from Bluetooth connection to function ex
             HVC_PRM.java		   Class storing the set values for each parameter
             HVC_RES.java		   Class storing the function execution results
             HVCCallback.java	   Parent class for callback function  
-            HVCBleCallback.java	Callback class to return the device status from HVC_BLE to main activity(HVCCallback sub-class)  
+            HVCBleCallback.java	   Callback class to return the device status from HVC_BLE to main activity(HVCCallback sub-class)  
             BleCallback.java	   Callback class to return the device status from BleDeviceService to HVC_BLE
             BleDeviceSearch.java   Class for Bluetooth device search  
             BleDeviceService.java  Class for Bluetooth device control  
@@ -48,15 +48,16 @@ The HVC classes will be useable if they are imported as follows in the applicati
  (3) Guidance for programming
 
 * Description of main classes  
-      Name		      Description
-      HVC               HVC super class
-      HVC_BLE           Class for HVC-C
-                        ・Used for HVC-C operations
-      HVC_PRM           HVC parameters
-                        ・Passed as argument of HVC.setParam()
-      HVC_RES           Class storing detection results
-      HVC_BleCallback   Class for callbacks called after process completion
-                        ・The method for HVC class is executed out-of-synch. The callback function is called after process completion
+
+        Name		      Description
+        HVC               HVC super class
+        HVC_BLE           Class for HVC-C
+                          ・Used for HVC-C operations
+        HVC_PRM           HVC parameters
+                          ・Passed as argument of HVC.setParam()
+        HVC_RES           Class storing detection results
+        HVC_BleCallback   Class for callbacks called after process completion
+                          ・The method for HVC class is executed out-of-synch. The callback function is called after process completion
 
     Refer to the class diagram in [HVC-C_Android class diagram](./HVC-C_Android_Class.png) for details.
 
