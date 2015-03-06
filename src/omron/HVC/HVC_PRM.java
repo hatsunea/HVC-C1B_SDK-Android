@@ -22,6 +22,65 @@ package omron.HVC;
 public class HVC_PRM
 {
     /**
+     * Pose enum
+     */
+    public enum HVC_FACE_POSE {
+        HVC_FACE_POSE_FRONT(0),
+        HVC_FACE_POSE_HALF_PROFIL(1),
+        HVC_FACE_POSE_PROFILE(2);
+
+        private int value;
+        private HVC_FACE_POSE(int n) {
+            this.value = n;
+        }
+        public int getValue() {
+            return this.value;
+        }
+        public void setValue(int n) {
+            this.value = n;
+        }
+    }
+    /**
+     * Angle enum
+     */
+    public enum HVC_FACE_ANGLE {
+        HVC_FACE_ANGLE_15(0),
+        HVC_FACE_ANGLE_45(1);
+
+        private int value;
+        private HVC_FACE_ANGLE(int n) {
+            this.value = n;
+        }
+        public int getValue() {
+            return this.value;
+        }
+        public void setValue(int n) {
+            this.value = n;
+        }
+    }
+
+    /**
+     * Camera angle enum
+     */
+    public enum HVC_CAMERA_ANGLE {
+        HVC_CAMERA_ANGLE_0(0),
+        HVC_CAMERA_ANGLE_90(1),
+        HVC_CAMERA_ANGLE_180(2),
+        HVC_CAMERA_ANGLE_270(3);
+
+        private int value;
+        private HVC_CAMERA_ANGLE(int n) {
+            this.value = n;
+        }
+        public int getValue() {
+            return this.value;
+        }
+        public void setValue(int n) {
+            this.value = n;
+        }
+    }
+
+    /**
      * Detection parameters
      */
     public class DetectionParam
@@ -61,11 +120,11 @@ public class HVC_PRM
         /**
          * Facial pose
          */
-        public int Pose;
+        public HVC_FACE_POSE pose;
         /**
          * Roll angle
          */
-        public int Angle;
+        public HVC_FACE_ANGLE angle;
 
         /**
          * Constructor<br>
@@ -75,15 +134,15 @@ public class HVC_PRM
          */
         public FaceParam()
         {
-            Pose = 0;
-            Angle = 0;
+            pose = HVC_FACE_POSE.HVC_FACE_POSE_FRONT;
+            angle = HVC_FACE_ANGLE.HVC_FACE_ANGLE_15;
         }
     }
 
     /**
      * Camera angle
      */
-    public int CameraAngle;
+    public HVC_CAMERA_ANGLE cameraAngle;
     /**
      * Human Body Detection parameters
      */
@@ -105,7 +164,8 @@ public class HVC_PRM
      */
     public HVC_PRM()
     {
-        CameraAngle = 0;
+        cameraAngle = HVC_CAMERA_ANGLE.HVC_CAMERA_ANGLE_0;
+
         body = new DetectionParam();
         hand = new DetectionParam();
         face = new FaceParam();

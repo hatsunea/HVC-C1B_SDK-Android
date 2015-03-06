@@ -387,7 +387,7 @@ public abstract class HVC {
 
         sendData = new byte[32];
 
-        sendData[0] = (byte) (param.CameraAngle & 0xff);
+        sendData[0] = (byte) (param.cameraAngle.getValue() & 0xff);
         /* Send SetCameraAngle command signal */
         nRet = SendCommand(HVC_COM_SET_CAMERA_ANGLE, 1, sendData);
         if (nRet != 0) return nRet;
@@ -431,7 +431,7 @@ public abstract class HVC {
 
         /* Receive data */
         nRet = ReceiveData(inTimeOutTime, nSize[0], recvData);
-        param.CameraAngle = recvData[0];
+        param.cameraAngle.setValue(recvData[0]);
         return nRet;
     }
 
@@ -607,8 +607,8 @@ public abstract class HVC {
 
         sendData = new byte[32];
 
-        sendData[0] = (byte) (param.face.Pose & 0xff);
-        sendData[1] = (byte) (param.face.Angle & 0xff);
+        sendData[0] = (byte) (param.face.pose.getValue() & 0xff);
+        sendData[1] = (byte) (param.face.angle.getValue() & 0xff);
         /* Send SetFaceDetectionAngle command signal */
         nRet = SendCommand(HVC_COM_SET_DETECTION_ANGLE, 2, sendData);
         if (nRet != 0) return nRet;
@@ -652,8 +652,8 @@ public abstract class HVC {
 
         /* Receive data */
         nRet = ReceiveData(inTimeOutTime, nSize[0], recvData);
-        param.face.Pose = recvData[0];
-        param.face.Angle = recvData[1];
+        param.face.pose.setValue(recvData[0]);
+        param.face.angle.setValue(recvData[1]);
         return nRet;
     }
 
