@@ -1,5 +1,5 @@
-/*
- * Copyright (C) 2014-2015 OMRON Corporation
+﻿/*
+ * Copyright (C) 2014-2015 HATSUNE, Akira (Original OMRON Corporation)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-package omron.HVC;
+namespace omron.HVC
+{
 
-public class BleCallback {
-    // Notice of completion of device connection/disconnection
-    public void callbackMethod(String action){
+    public abstract class HVCCallback
+    {
+        public abstract void OnPostSetParam(int nRet, byte outStatus);
+        public abstract void OnPostGetParam(int nRet, byte outStatus);
+        public abstract void OnPostGetVersion(int nRet, byte outStatus);
+        public abstract void OnPostExecute(int nRet, byte outStatus);
     }
-    // Notice of data/device name reception 
-    public void callbackMethod(String action, byte[] value){
-    }
+
 }

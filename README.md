@@ -1,29 +1,29 @@
-﻿# HVC-C1B Android-SDK by OMRON
+﻿# HVC-C1B Xamarin.Android-SDK by HATSUNE, Akira. Original SDK by OMRON
 
 ### 1. Code contents  
-This code provides the JAVA API classes from Bluetooth connection to function execution and disconnection process.
+This code provides the .NET Framework API classes from Bluetooth connection to function execution and disconnection process.
 
 ### 2. Directory structure  
-      AndroidManifest.xml		Manifest  
       bin/  
-        hvc_c1b_sdk.jar			JAR file created from code
+        omron.HVC.Droid.dll			dll file created from code
       src/  
         omron/  
           HVC/				    HVC class package
-            HVC.java			   HVC parent class  
-            HVC_BLE.java		   HVC-C class (HVC sub-class)
-            HVC_VER.java		   Class storing the HVC version number
-            HVC_PRM.java		   Class storing the set values for each parameter
-            HVC_RES.java		   Class storing the function execution results
-            HVCCallback.java	   Parent class for callback function  
-            HVCBleCallback.java	   Callback class to return the device status from HVC_BLE to main activity(HVCCallback sub-class)  
-            BleCallback.java	   Callback class to return the device status from BleDeviceService to HVC_BLE
-            BleDeviceSearch.java   Class for Bluetooth device search  
-            BleDeviceService.java  Class for Bluetooth device control  
+            Core/                     Common Core Class
+              HVC.java			   HVC parent class  
+              HVC_VER.java		   Class storing the HVC version number
+              HVC_PRM.java		   Class storing the set values for each parameter
+              HVC_RES.java		   Class storing the function execution results
+              HVCCallback.java	   Parent class for callback function  
+              HVCBleCallback.java	   Callback class to return the device status from HVC_BLE to main activity(HVCCallback sub-class)  
+              BleCallback.java	   Callback class to return the device status from BleDeviceService to HVC_BLE
+            Droid/                    Android Class
+              BleDeviceSearch.java   Class for Bluetooth device search  
+              BleDeviceService.java  Class for Bluetooth device control  
+              HVC_BLE.java		   HVC-C class (HVC sub-class)
 
 ### 3. Method for building code
-(1) Make sure that the code is compiled with JAVA version 1.7.  
-Use V4.3 or higher for Android-SDK (required).
+(1) Use V4.3 or higher for Android-SDK (required).
 
 (2) Bluetooth permission  
 Since HVC-C is connected with Bluetooth, the application will require Bluetooth permission. Add the following to the application manifest:
@@ -32,18 +32,13 @@ Since HVC-C is connected with Bluetooth, the application will require Bluetooth 
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
 ### 4. Links to the application
-(1) libs folder  
-Create a libs folder in the application project and copy hvc_c1w_sdk.jar into it.
+(1) Reference
+Reference omron.HVC.Droid.dll into it.
 
-(2) Import  
+(2) using  
 The HVC classes will be useable if they are imported as follows in the application source:
 
-     import omron.HVC.HVC;  
-     import omron.HVC.HVCBleCallback;  
-     import omron.HVC.HVC_BLE;  
-     import omron.HVC.HVC_PRM;  
-     import omron.HVC.HVC_RES;  
-     import omron.HVC.HVC_RES.FaceResult;  
+     using omron.HVC;
 
  (3) Guidance for programming
 
@@ -67,61 +62,68 @@ The HVC classes will be useable if they are imported as follows in the applicati
 
         <Extract main process flow>
         // Create class
-        hvcBle = new HVC_BLE();
-        hvcPrm = new HVC_PRM();
-        hvcRes = new HVC_RES();
+            HvcBle = new HVC_BLE();
+            HvcPrm = new HVC_PRM();
+            HvcRes = new HVC_RES();
 
         // Obtain BLE device
-        BluetoothDevice device = SelectHVCDevice("OMRON_HVC.*|omron_hvc.*");  
+        BluetoothDevice device = await this.SelectHVCDevice("OMRON_HVC.*|omron_hvc.*");
 
         // Register callback
-        hvcBle.setCallBack(hvcCallback);
+        HvcBle.SetCallBack(new hvcCallback(this));
 
         // Connect HVC and BLE
-        hvcBle.connect(getApplicationContext(), device);
+        this.HvcBle.Connect(global::Android.App.Application.Context, device);
 
         // Set parameters
-        hvcPrm.face.MinSize = 60;
-        hvcBle.setParam(hvcPrm);
+        this.HvcPrm.Face.MinSize = 60;
+        await this.HvcBle.SetParam(this.HvcPrm);
 
         // Execute detection
-        hvcBle.execute(HVC.HVC_ACTIV_FACE_DETECTION |
-                       HVC.HVC_ACTIV_FACE_DIRECTION, hvcRes);
+        await this.HvcBle.execute(HVC.HVC_ACTIV_FACE_DETECTION |
+                                  HVC.HVC_ACTIV_FACE_DIRECTION, this.HvcRes);
 
         // Disconnect BLE
-        hvcBle.disconnect();
+        this.HvcBle.Disconnect();
 
         <Get detection results>
-        HVCBleCallback hvcCallback
-        {
-            @Override
-            public void onConnected() {
+        private class hvcCallback : HVCBleCallback
+        { 
+            private readonly MainActivity outerInstance;
+
+            public hvcCallback(MainActivity outerInstance)
+            {
+                this.outerInstance = outerInstance;
+            }
+            public override void OnConnected()
+            {
                 // Connection completed
             }
 
-            @Override
-            public void onDisconnected() {
+            public override void OnDisconnected()
+            {
                 // Disconnected
             }
 
-            @Override
-            public void onPostSetParam(int nRet, byte outStatus) {
+            public override void OnPostSetParam(int nRet, byte outStatus)
+            {
                 // Settings completed
             }
 
-            @Override
-            public void onPostGetParam(int nRet, byte outStatus) {
+            public override void OnPostGetParam(int nRet, byte outStatus)
+            {
                 // Get settings
             }
 
-            @Override
-            public void onPostExecute(int nRet, byte outStatus) {
+            public override void OnPostExecute(int nRet, byte outStatus)
+            {
                 // Get detection result
-                for (FaceResult faceResult : hvcRes.face) {
-                    int size = faceResult.size;
-                    int posX = faceResult.posX;
-                    int posY = faceResult.posY;
-                    int conf = faceResult.confidence;
+                foreach (HVC_RES.DetectionResult bodyResult in outerInstance.HvcRes.Body)
+                {
+                    int size = bodyResult.Size;
+                    int posX = bodyResult.PosX;
+                    int posY = bodyResult.PosY;
+                    int conf = bodyResult.Confidence;
                 }
             }
         }
@@ -134,9 +136,11 @@ The functions must be executed after confirming the connection completion with t
 
 
 ###[NOTES ON USAGE]
-* This sample code and documentation are copyrighted property of OMRON Corporation  
+* This sample code and documentation are copyrighted property of HATSUNE, Akira
+* Under Apache License 2.0.
 * This sample code does not guarantee proper operation
+* Original sample code and documentation are copyrighted property of OMRON Corporation  
 
 ----
-OMRON Corporation
-Copyright(C) 2014-2015 OMRON Corporation, All Rights Reserved.
+HATSUNE, Akira
+Copyright(C) 2014-2015 HATSUNE, Akira, All Rights Reserved.

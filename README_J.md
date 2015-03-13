@@ -1,31 +1,31 @@
-# HVC-C1B Android-SDK by OMRON
+# HVC-C1B Xamarin.Android-SDK by HATSUNE,Akira Original SDK by OMRON
 
 ### 1. コード内容  
- 本コードではBluetooth接続から機能実行、切断処理までをJAVAのAPIクラスとして用意しています。
+ 本コードではBluetooth接続から機能実行、切断処理までを.NET FrameworkのAPIクラスとして用意しています。
 
 ### 2. ディレクトリ構成  
-      AndroidManifest.xml         マニュフェスト  
       bin/  
-        hvc_c1b_sdk.jar             コードから生成したJARファイル  
+        omron.HVC.Droid.dll             コードから生成したdllファイル  
       src/  
         omron/  
           HVC/                      HVCクラスパッケージ  
-            HVC.java                  HVCの親クラス  
-            HVC_BLE.java              HVC-Cクラス(HVCのサブクラス)  
-            HVC_VER.java              HVCのバージョン番号を格納するクラス  
-            HVC_PRM.java              各種パラメータの設定値を格納するクラス  
-            HVC_RES.java              機能実行結果を格納するクラス  
-            HVCCallback.java          コールバック関数の親クラス  
-            HVCBleCallback.java       HVC_BLEからメインアクティビティにデバイスの状態を返すための
-                                      コールバッククラス（HVCCallbackのサブクラス）  
-            BleCallback.java          BleDeviceServiceからHVC_BLEにデバイスの状態を返すための
-                                      コールバッククラス  
-            BleDeviceSearch.java      Bluetoothデバイスを検索するクラス  
-            BleDeviceService.java     Bluetoothデバイス管理クラス  
+            Core/                     共通コアクラス
+              HVC.java                  HVCの親クラス  
+              HVC_VER.java              HVCのバージョン番号を格納するクラス  
+              HVC_PRM.java              各種パラメータの設定値を格納するクラス 
+              HVC_RES.java              機能実行結果を格納するクラス  
+              HVCCallback.java          コールバック関数の親クラス  
+              HVCBleCallback.java       HVC_BLEからメインアクティビティにデバイスの状態を返すための
+                                        コールバッククラス（HVCCallbackのサブクラス）  
+              BleCallback.java          BleDeviceServiceからHVC_BLEにデバイスの状態を返すための
+                                        コールバッククラス  
+            Droid/                    Android固有クラス
+              BleDeviceSearch.java      Bluetoothデバイスを検索するクラス  
+              BleDeviceService.java     Bluetoothデバイス管理クラス  
+              HVC_BLE.java              HVC-Cクラス(HVCのサブクラス)  
 
 ### 3. コードのビルド方法
- (1) コードはJAVAのバージョン1.7でコンパイルを確認しています。
-     またAndroid-SDKは4.3以上を使用する必要があります。
+ (1) Android-SDKは4.3以上を使用する必要があります。
 
  (2) Bluetoothパーミッション
      HVC-CはBluetooth接続であるため、アプリケーションにはBluetoothパーミッションの
@@ -35,18 +35,13 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
 ### 4. アプリへのリンクについて
- (1) libsフォルダ  
-     作成したアプリケーションプロジェクトにlibsフォルダを作成し、hvc_c1w_sdk.jarをコピーしてください。
+ (1) 参照設定
+     作成したアプリケーションプロジェクトでomron.HVC.Droid.dllを参照設定してください。
 
- (2) インポート  
-     アプリケーションソースに次のようにHVCクラスをインポートすればHVCクラスの使用が可能になります。
+ (2) using  
+     アプリケーションソースに次のようにHVCクラスをusingすればHVCクラスの使用が可能になります。
 
-     import omron.HVC.HVC;  
-     import omron.HVC.HVCBleCallback;  
-     import omron.HVC.HVC_BLE;  
-     import omron.HVC.HVC_PRM;  
-     import omron.HVC.HVC_RES;  
-     import omron.HVC.HVC_RES.FaceResult;  
+     using omron.HVC;
 
  (3) プログラミングの手引き  
 
@@ -70,60 +65,67 @@
 
         <メイン処理フロー抜粋>
         // クラスの作成
-        hvcBle = new HVC_BLE();
-        hvcPrm = new HVC_PRM();
-        hvcRes = new HVC_RES();
+            HvcBle = new HVC_BLE();
+            HvcPrm = new HVC_PRM();
+            HvcRes = new HVC_RES();
 
         // BLEデバイス取得
-        BluetoothDevice device = SelectHVCDevice("OMRON_HVC.*|omron_hvc.*");  
+        BluetoothDevice device = await this.SelectHVCDevice("OMRON_HVC.*|omron_hvc.*");
 
         // コールバックを登録
-        hvcBle.setCallBack(hvcCallback);
+        HvcBle.SetCallBack(new hvcCallback(this));
 
         // HVCとBLE接続
-        hvcBle.connect(getApplicationContext(), device);
+        this.HvcBle.Connect(global::Android.App.Application.Context, device);
 
         // パラメータ設定
-        hvcPrm.face.MinSize = 60;
-        hvcBle.setParam(hvcPrm);
+        this.HvcPrm.Face.MinSize = 60;
+        await this.HvcBle.SetParam(this.HvcPrm);
         // 検出実行
-        hvcBle.execute(HVC.HVC_ACTIV_FACE_DETECTION |
-                       HVC.HVC_ACTIV_FACE_DIRECTION, hvcRes);
+        await this.HvcBle.execute(HVC.HVC_ACTIV_FACE_DETECTION |
+                                  HVC.HVC_ACTIV_FACE_DIRECTION, this.HvcRes);
 
         // BLE接続を切断
-        hvcBle.disconnect();
+        this.HvcBle.Disconnect();
 
         <検出結果の取得>
-        HVCBleCallback hvcCallback
-        {
-            @Override
-            public void onConnected() {
+        private class hvcCallback : HVCBleCallback
+        { 
+            private readonly MainActivity outerInstance;
+
+            public hvcCallback(MainActivity outerInstance)
+            {
+                this.outerInstance = outerInstance;
+            }
+            public override void OnConnected()
+            {
                 // 接続完了
             }
 
-            @Override
-            public void onDisconnected() {
+            public override void OnDisconnected()
+            {
                 // 切断しました
             }
 
-            @Override
-            public void onPostSetParam(int nRet, byte outStatus) {
+            public override void OnPostSetParam(int nRet, byte outStatus)
+            {
                 // 設定完了
             }
 
-            @Override
-            public void onPostGetParam(int nRet, byte outStatus) {
+            public override void OnPostGetParam(int nRet, byte outStatus)
+            {
                 // 設定値取得
             }
 
-            @Override
-            public void onPostExecute(int nRet, byte outStatus) {
+            public override void OnPostExecute(int nRet, byte outStatus)
+            {
                 // 検出結果取得
-                for (FaceResult faceResult : hvcRes.face) {
-                    int size = faceResult.size;
-                    int posX = faceResult.posX;
-                    int posY = faceResult.posY;
-                    int conf = faceResult.confidence;
+                foreach (HVC_RES.DetectionResult bodyResult in outerInstance.HvcRes.Body)
+                {
+                    int size = bodyResult.Size;
+                    int posX = bodyResult.PosX;
+                    int posY = bodyResult.PosY;
+                    int conf = bodyResult.Confidence;
                 }
             }
         }
@@ -136,10 +138,12 @@
 
 
 ###[ご使用にあたって]
-* 本サンプルコードおよびドキュメントの著作権はオムロンに帰属します。  
+* 本サンプルコードおよびドキュメントの著作権は初音玲に帰属します。
+* ライセンスはApache License 2.0となります。
 * 本サンプルコードは動作を保証するものではありません。
+* オリジナルサンプルコードおよびドキュメントの著作権はオムロンに帰属します。  
 
 ----
-オムロン株式会社  
-Copyright(C) 2014-2015 OMRON Corporation, All Rights Reserved.
+初音玲
+Copyright(C) 2014-2015 HATSUNE, Akira, All Rights Reserved.
 

@@ -1,5 +1,5 @@
-/*
- * Copyright (C) 2014-2015 OMRON Corporation
+﻿/*
+ * Copyright (C) 2014-2015 HATSUNE, Akira (Original OMRON Corporation)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,17 @@
  * limitations under the License.
  */
 
-package omron.HVC;
-
-public abstract class HVCCallback {
-    protected abstract void onPostSetParam(int nRet, byte outStatus);
-    protected abstract void onPostGetParam(int nRet, byte outStatus);
-    protected abstract void onPostGetVersion(int nRet, byte outStatus);
-    protected abstract void onPostExecute(int nRet, byte outStatus);
+namespace omron.HVC
+{
+    public class BleCallback
+    {
+        public virtual void CallbackMethod(string action)
+        {
+            // TODO Auto-generated method stub
+        }
+        public virtual void CallbackMethod(string action, byte[] value)
+        {
+            // TODO Auto-generated method stub
+        }
+    }
 }
