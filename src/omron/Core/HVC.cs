@@ -288,7 +288,14 @@ namespace omron.HVC
             }
 
             /* Get data length */
-            outDataSize[0] = (headerData[RECEIVE_HEAD_DATALENLL] & 0xff) + ((headerData[RECEIVE_HEAD_DATALENLM] & 0xff) << 8) + ((headerData[RECEIVE_HEAD_DATALENML] & 0xff) << 16) + ((headerData[RECEIVE_HEAD_DATALENMM] & 0xff) << 24);
+            if (outDataSize == null || outDataSize.Length == 0)
+            {
+                outDataSize = new int[] { 0 };
+            }
+            outDataSize[0] = (headerData[RECEIVE_HEAD_DATALENLL] & 0xff) + 
+                ((headerData[RECEIVE_HEAD_DATALENLM] & 0xff) << 8) + 
+                ((headerData[RECEIVE_HEAD_DATALENML] & 0xff) << 16) + 
+                ((headerData[RECEIVE_HEAD_DATALENMM] & 0xff) << 24);
 
             /* Get command execution result */
             outStatus[0] = headerData[RECEIVE_HEAD_STATUS];
@@ -331,7 +338,7 @@ namespace omron.HVC
         public virtual int GetVersion(int inTimeOutTime, byte[] outStatus, HVC_VER ver)
         {
             int nRet = 0;
-            int[] nSize = { };
+            int[] nSize = { 0 };
             byte[] sendData;
             byte[] recvData;
 
@@ -366,7 +373,10 @@ namespace omron.HVC
             ver.Major = recvData[ver.Version.Length];
             ver.Minor = recvData[ver.Version.Length + 1];
             ver.Relese = recvData[ver.Version.Length + 2];
-            ver.Rev = recvData[ver.Version.Length + 3] + (recvData[ver.Version.Length + 4] << 8) + (recvData[ver.Version.Length + 5] << 16) + (recvData[ver.Version.Length + 6] << 24);
+            ver.Rev = recvData[ver.Version.Length + 3] + 
+                (recvData[ver.Version.Length + 4] << 8) + 
+                (recvData[ver.Version.Length + 5] << 16) + 
+                (recvData[ver.Version.Length + 6] << 24);
             return nRet;
         }
 
@@ -380,12 +390,12 @@ namespace omron.HVC
         public virtual int SetCameraAngle(int inTimeOutTime, byte[] outStatus, HVC_PRM param)
         {
             int nRet = 0;
-            int[] nSize = { };
+            int[] nSize = { 0 };
             byte[] sendData;
 
             sendData = new byte[32];
 
-            sendData[0] = unchecked((byte)(param.CameraAngle & 0xff));
+            sendData[0] = unchecked((byte)((int)param.CameraAngle & 0xff));
             /* Send SetCameraAngle command signal */
             nRet = SendCommand(HVC_COM_SET_CAMERA_ANGLE, 1, sendData);
             if (nRet != 0)
@@ -412,7 +422,7 @@ namespace omron.HVC
         public virtual int GetCameraAngle(int inTimeOutTime, byte[] outStatus, HVC_PRM param)
         {
             int nRet = 0;
-            int[] nSize = { };
+            int[] nSize = { 0 };
             byte[] sendData;
             byte[] recvData;
 
@@ -440,7 +450,7 @@ namespace omron.HVC
 
             /* Receive data */
             nRet = ReceiveData(inTimeOutTime, nSize[0], recvData);
-            param.CameraAngle = recvData[0];
+            param.CameraAngle = (HVC_PRM.HVC_CAMERA_ANGLE)recvData[0];
             return nRet;
         }
 
@@ -454,7 +464,7 @@ namespace omron.HVC
         public virtual int SetThreshold(int inTimeOutTime, byte[] outStatus, HVC_PRM param)
         {
             int nRet = 0;
-            int[] nSize = { };
+            int[] nSize = { 0 };
             byte[] sendData;
 
             sendData = new byte[32];
@@ -493,7 +503,7 @@ namespace omron.HVC
         public virtual int GetThreshold(int inTimeOutTime, byte[] outStatus, HVC_PRM param)
         {
             int nRet = 0;
-            int[] nSize = { };
+            int[] nSize = { 0 };
             byte[] sendData;
             byte[] recvData;
 
@@ -537,7 +547,7 @@ namespace omron.HVC
         public virtual int SetSizeRange(int inTimeOutTime, byte[] outStatus, HVC_PRM param)
         {
             int nRet = 0;
-            int[] nSize = { };
+            int[] nSize = { 0 };
             byte[] sendData;
 
             sendData = new byte[32];
@@ -580,7 +590,7 @@ namespace omron.HVC
         public virtual int GetSizeRange(int inTimeOutTime, byte[] outStatus, HVC_PRM param)
         {
             int nRet = 0;
-            int[] nSize = { };
+            int[] nSize = { 0 };
             byte[] sendData;
             byte[] recvData;
 
@@ -627,13 +637,13 @@ namespace omron.HVC
         public virtual int SetFaceDetectionAngle(int inTimeOutTime, byte[] outStatus, HVC_PRM param)
         {
             int nRet = 0;
-            int[] nSize = { };
+            int[] nSize = { 0 };
             byte[] sendData;
 
             sendData = new byte[32];
 
-            sendData[0] = unchecked((byte)(param.Face.Pose & 0xff));
-            sendData[1] = unchecked((byte)(param.Face.Angle & 0xff));
+            sendData[0] = unchecked((byte)((int)param.Face.Pose & 0xff));
+            sendData[1] = unchecked((byte)((int)param.Face.Angle & 0xff));
             /* Send SetFaceDetectionAngle command signal */
             nRet = SendCommand(HVC_COM_SET_DETECTION_ANGLE, 2, sendData);
             if (nRet != 0)
@@ -660,7 +670,7 @@ namespace omron.HVC
         public virtual int GetFaceDetectionAngle(int inTimeOutTime, byte[] outStatus, HVC_PRM param)
         {
             int nRet = 0;
-            int[] nSize = { };
+            int[] nSize = { 0 };
             byte[] sendData;
             byte[] recvData;
 
@@ -688,8 +698,8 @@ namespace omron.HVC
 
             /* Receive data */
             nRet = ReceiveData(inTimeOutTime, nSize[0], recvData);
-            param.Face.Pose = recvData[0];
-            param.Face.Angle = recvData[1];
+            param.Face.Pose = (HVC_PRM.HVC_FACE_POSE)recvData[0];
+            param.Face.Angle = (HVC_PRM.HVC_FACE_ANGLE)recvData[1];
             return nRet;
         }
 

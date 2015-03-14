@@ -493,14 +493,14 @@ namespace omron.HVC
             return readLength;
         }
 
-        public virtual void Sleep(long msec)
+        protected virtual void Sleep(long msec)
         {
             lock (SyncObject)
             {
                 try
                 {
-                    Monitor.Wait(this, TimeSpan.FromMilliseconds(msec));
-                    //System.Threading.Thread.Sleep(1);
+                    //Monitor.Wait(this, TimeSpan.FromMilliseconds(msec));
+                    System.Threading.Thread.Sleep(1);
                 }
                 catch
                 {

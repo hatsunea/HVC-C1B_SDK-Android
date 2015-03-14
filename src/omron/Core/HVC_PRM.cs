@@ -22,6 +22,36 @@ namespace omron.HVC
     /// </summary>
     public class HVC_PRM
     {
+        /**
+         * Pose enum
+         */
+        public enum HVC_FACE_POSE
+        {
+            HVC_FACE_POSE_FRONT = 0,
+            HVC_FACE_POSE_HALF_PROFIL = 1,
+            HVC_FACE_POSE_PROFILE = 2
+        }
+
+        /**
+         * Angle enum
+         */
+        public enum HVC_FACE_ANGLE
+        {
+            HVC_FACE_ANGLE_15 = 0,
+            HVC_FACE_ANGLE_45 = 1
+        }
+
+        /**
+         * Camera angle enum
+         */
+        public enum HVC_CAMERA_ANGLE
+        {
+            HVC_CAMERA_ANGLE_0 = 0,
+            HVC_CAMERA_ANGLE_90 = 1,
+            HVC_CAMERA_ANGLE_180 = 2,
+            HVC_CAMERA_ANGLE_270 = 3
+        }
+
         /// <summary>
         /// Detection parameters
         /// </summary>
@@ -67,11 +97,11 @@ namespace omron.HVC
             /// <summary>
             /// Facial pose
             /// </summary>
-            public int Pose;
+            public HVC_FACE_POSE Pose;
             /// <summary>
             /// Roll angle
             /// </summary>
-            public int Angle;
+            public HVC_FACE_ANGLE Angle;
 
             /// <summary>
             /// Constructor<br>
@@ -83,15 +113,15 @@ namespace omron.HVC
                 : base(parent)
             {
                 this.Parent = parent;
-                this.Pose = 40;
-                this.Angle = 480;
+                this.Pose = HVC_FACE_POSE.HVC_FACE_POSE_FRONT;
+                this.Angle = HVC_FACE_ANGLE.HVC_FACE_ANGLE_15;
             }
         }
 
         /// <summary>
         /// Camera angle
         /// </summary>
-        public int CameraAngle;
+        public HVC_CAMERA_ANGLE CameraAngle;
         /// <summary>
         /// Human Body Detection parameters
         /// </summary>
@@ -113,7 +143,7 @@ namespace omron.HVC
         /// </summary>
         public HVC_PRM()
         {
-            CameraAngle = 0;
+            CameraAngle = HVC_CAMERA_ANGLE.HVC_CAMERA_ANGLE_0;
             Body = new DetectionParam(this);
             Hand = new DetectionParam(this);
             Face = new FaceParam(this);
