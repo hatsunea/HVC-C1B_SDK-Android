@@ -34,6 +34,8 @@ Since HVC-C is connected with Bluetooth, the application will require Bluetooth 
 ### 4. Links to the application
 (1) Reference
 Reference omron.HVC.Droid.dll into it.
+Or To install OMRON HVC-C SDK for Xamarin.Android, run the following command in the  Package Manager Console.
+PM> Install-Package omron.HVC.Droid
 
 (2) using  
 The HVC classes will be useable if they are imported as follows in the application source:

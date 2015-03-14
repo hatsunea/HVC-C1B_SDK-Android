@@ -37,6 +37,9 @@
 ### 4. アプリへのリンクについて
  (1) 参照設定
      作成したアプリケーションプロジェクトでomron.HVC.Droid.dllを参照設定してください。
+または、nugetを使ってアプリケーションプロジェクトへomron.HVC.Droid.dllをインストールしてください。
+PM> Install-Package omron.HVC.Droid
+nugetによる方法をお勧めします。
 
  (2) using  
      アプリケーションソースに次のようにHVCクラスをusingすればHVCクラスの使用が可能になります。
