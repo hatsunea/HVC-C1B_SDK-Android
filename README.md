@@ -10,17 +10,17 @@ This code provides the .NET Framework API classes from Bluetooth connection to f
         omron/  
           HVC/				    HVC class package
             Core/                     Common Core Class
-              HVC.java			   HVC parent class  
-              HVC_VER.java		   Class storing the HVC version number
-              HVC_PRM.java		   Class storing the set values for each parameter
-              HVC_RES.java		   Class storing the function execution results
-              HVCCallback.java	   Parent class for callback function  
-              HVCBleCallback.java	   Callback class to return the device status from HVC_BLE to main activity(HVCCallback sub-class)  
-              BleCallback.java	   Callback class to return the device status from BleDeviceService to HVC_BLE
+              HVC.cs			   HVC parent class  
+              HVC_VER.cs		   Class storing the HVC version number
+              HVC_PRM.cs		   Class storing the set values for each parameter
+              HVC_RES.cs		   Class storing the function execution results
+              HVCCallback.cs	   Parent class for callback function  
+              HVCBleCallback.cs	   Callback class to return the device status from HVC_BLE to main activity(HVCCallback sub-class)  
+              BleCallback.cs	   Callback class to return the device status from BleDeviceService to HVC_BLE
             Droid/                    Android Class
-              BleDeviceSearch.java   Class for Bluetooth device search  
-              BleDeviceService.java  Class for Bluetooth device control  
-              HVC_BLE.java		   HVC-C class (HVC sub-class)
+              BleDeviceSearch.cs   Class for Bluetooth device search  
+              BleDeviceService.cs  Class for Bluetooth device control  
+              HVC_BLE.cs		   HVC-C class (HVC sub-class)
 
 ### 3. Method for building code
 (1) Use V4.3 or higher for Android-SDK (required).
