@@ -10,19 +10,19 @@
         omron/  
           HVC/                      HVCクラスパッケージ  
             Core/                     共通コアクラス
-              HVC.java                  HVCの親クラス  
-              HVC_VER.java              HVCのバージョン番号を格納するクラス  
-              HVC_PRM.java              各種パラメータの設定値を格納するクラス 
-              HVC_RES.java              機能実行結果を格納するクラス  
-              HVCCallback.java          コールバック関数の親クラス  
-              HVCBleCallback.java       HVC_BLEからメインアクティビティにデバイスの状態を返すための
+              HVC.cs                  HVCの親クラス  
+              HVC_VER.cs              HVCのバージョン番号を格納するクラス  
+              HVC_PRM.cs              各種パラメータの設定値を格納するクラス 
+              HVC_RES.cs              機能実行結果を格納するクラス  
+              HVCCallback.cs          コールバック関数の親クラス  
+              HVCBleCallback.cs       HVC_BLEからメインアクティビティにデバイスの状態を返すための
                                         コールバッククラス（HVCCallbackのサブクラス）  
-              BleCallback.java          BleDeviceServiceからHVC_BLEにデバイスの状態を返すための
+              BleCallback.cs          BleDeviceServiceからHVC_BLEにデバイスの状態を返すための
                                         コールバッククラス  
             Droid/                    Android固有クラス
-              BleDeviceSearch.java      Bluetoothデバイスを検索するクラス  
-              BleDeviceService.java     Bluetoothデバイス管理クラス  
-              HVC_BLE.java              HVC-Cクラス(HVCのサブクラス)  
+              BleDeviceSearch.cs      Bluetoothデバイスを検索するクラス  
+              BleDeviceService.cs     Bluetoothデバイス管理クラス  
+              HVC_BLE.cs              HVC-Cクラス(HVCのサブクラス)  
 
 ### 3. コードのビルド方法
  (1) Android-SDKは4.3以上を使用する必要があります。
